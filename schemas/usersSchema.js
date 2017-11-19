@@ -10,11 +10,6 @@ var UsersSchema = new mongoose.Schema({
   headImg: String,
 })
 
-UsersSchema.pre('login', function(next) {
-  console.log('login pre')
-
-  next()
-})
 
 UsersSchema.statics = {
   fetch: function(cb) {
