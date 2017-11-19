@@ -2,7 +2,10 @@ var mongoose = require('mongoose')
 
 var LogSchema = new mongoose.Schema({
   time: String,
-  api: String
+  api: String,
+  method: String,
+  body: Object,
+  params: Object,
 })
 
 

@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.all('*', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', 'X-Requested-With')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
   res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
   res.header('X-Powered-By', ' 3.2.1')
   res.header('Content-Type', 'application/json;charset=utf-8')
@@ -41,14 +41,21 @@ app.all('*', function (req, res, next) {
 })
 
 app.use(function (req, res, next) {
-  var doc = {
-    time: new Date().toLocaleString(),
-    api: req.originalUrl
+  if(req.method == 'OPTIONS'){
+    
+  }else{
+    var doc = {
+      time: new Date().toLocaleString(),
+      api: req.originalUrl,
+      method: req.method,
+      body: req.body,
+      params: req.query,
+    }
+    console.log(doc)
+    var logEntity = new logModel(doc)
+    logEntity.save(function (error) {
+    })
   }
-  console.log(req)
-  var logEntity = new logModel(doc);
-  logEntity.save(function (error) {
-  })
   next()
 })
 
