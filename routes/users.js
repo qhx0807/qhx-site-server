@@ -24,5 +24,14 @@ router.post('/login', function(req, res, next) {
   })
 })
 
+router.post('/userUpdate', function(req, res, next) {
+  Users.updateUser(req.body.id, req.body.data, function(err, docs) {
+    if (err) {
+      console.log(err)
+    }
+    res.json({Data: docs})
+  })
+})
+
 
 module.exports = router
