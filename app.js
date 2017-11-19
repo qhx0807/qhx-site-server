@@ -51,7 +51,6 @@ app.use(function (req, res, next) {
       body: req.body,
       params: req.query,
     }
-    console.log(doc)
     var logEntity = new logModel(doc)
     logEntity.save(function (error) {
     })
