@@ -1,13 +1,11 @@
 var express = require('express')
 var router = express.Router()
-
-var mongoose = require('mongoose')
-var Notes = require('../models/notesModel')
+var NoteModel = require('../service/note-service')
 
 
 //查询所有数据
 router.get('/', function(req, res, next) {
-    Notes.query(function(err, notes) {
+  NoteModel.query(function(err, notes) {
     if (err) {
       console.log(err)
     }
