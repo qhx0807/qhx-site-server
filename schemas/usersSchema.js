@@ -12,14 +12,17 @@ var UsersSchema = new mongoose.Schema({
 
 
 UsersSchema.statics = {
-  fetch: function(cb) {
+  query: function(cb) {
     return this.find().exec(cb)
   },
   login: function(name, pwd, cb) {
     return this.findOne({ name: name, pwd: pwd }).exec(cb)
   },
-  updateUser: function(id, doc, cb){
+  update: function(id, doc, cb){
     return this.update({_id: id}, doc).exec(cb)
+  },
+  delete: function(id, cb){
+    return this.remove({_id: id}).exec(cb)
   },
 }
 
