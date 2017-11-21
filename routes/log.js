@@ -1,12 +1,10 @@
 var express = require('express')
 var router = express.Router()
-
-var mongoose = require('mongoose')
-var Log = require('../models/logModel')
+var LogModel = require('../service/log-service')
 
 
 router.get('/log', function(req, res, next) {
-    Log.query(function(err, log) {
+  LogModel.query(function(err, log) {
     if (err) {
       console.log(err)
     }
