@@ -1,12 +1,10 @@
 var express = require('express')
 var router = express.Router()
-
-var mongoose = require('mongoose')
-var Users = require('../models/usersModel')
+var UsersModel = require('../service/user-service')
 
 
-router.get('/users', function(req, res, next) {
-  Users.query(function(err, users) {
+router.get('/user', function(req, res, next) {
+  UsersModel.query(function(err, users) {
     if (err) {
       console.log(err)
     }
@@ -16,7 +14,7 @@ router.get('/users', function(req, res, next) {
 
 
 router.post('/login', function(req, res, next) {
-  Users.login(req.body.name, req.body.pwd, function(err, users) {
+  UsersModel.login(req.body.name, req.body.pwd, function(err, users) {
     if (err) {
       console.log(err)
     }
@@ -24,12 +22,32 @@ router.post('/login', function(req, res, next) {
   })
 })
 
-router.post('/userUpdate', function(req, res, next) {
-  Users.update(req.body.id, req.body.data, function(err, docs) {
+router.put('/user', function(req, res, next) {
+  UsersModel.update(req.body.id, req.body.data, function(err, docs) {
     if (err) {
       console.log(err)
     }
     res.json({Data: docs})
+  })
+})
+
+router.delete('/user', function(req, res, next) {
+  UsersModel.update(req.body.id, function(err, docs) {
+    if (err) {
+      console.log(err)
+    }
+    res.json({Data: docs})
+  })
+})
+
+router.post('/user', function (req, res, next) {
+  var noticeInsert = new NoticeMOdel(req.body)
+  noticeInsert.save(function (err) {
+    if (err) {
+      res.json({Data: err})
+    }else {
+      res.json({OK: 'ok'})
+    }
   })
 })
 
