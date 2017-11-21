@@ -21,7 +21,8 @@ var notice = require('./routes/notice')
 var app = express()
 
 var db = mongoose.connect('mongodb://106.14.198.193:27017/qhx')
-var logModel = db.model('log', LogSchema)
+//var logModel = db.model('log', LogSchema)
+var logModel = require('./service/log-service')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
