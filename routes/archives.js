@@ -1,11 +1,11 @@
 var express = require('express')
 var router = express.Router()
 
-var Archives = require('../models/archivesModel')
+var ArchiveModel = require('../service/archive-service')
 
 
 router.get('/archives', function(req, res, next) {
-    Archives.query(function(err, archives) {
+  ArchiveModel.query(function(err, archives) {
     if (err) {
       console.log(err)
     }
