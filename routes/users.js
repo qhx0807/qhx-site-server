@@ -6,7 +6,7 @@ var Users = require('../models/usersModel')
 
 
 router.get('/users', function(req, res, next) {
-  Users.fetch(function(err, users) {
+  Users.query(function(err, users) {
     if (err) {
       console.log(err)
     }
@@ -25,7 +25,7 @@ router.post('/login', function(req, res, next) {
 })
 
 router.post('/userUpdate', function(req, res, next) {
-  Users.updateUser(req.body.id, req.body.data, function(err, docs) {
+  Users.update(req.body.id, req.body.data, function(err, docs) {
     if (err) {
       console.log(err)
     }
