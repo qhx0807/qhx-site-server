@@ -20,6 +20,6 @@ NoticeSchema.statics = {
   }
 }
 
-var NoticeMOdel = mongoose.model('notice', NoticeSchema)
+//var NoticeMOdel = mongoose.model('notice', NoticeSchema)
 
-module.exports = NoticeMOdel
+module.exports = NoticeSchema
