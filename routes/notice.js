@@ -1,10 +1,9 @@
 var express = require('express')
 var router = express.Router()
-
-var NoticeMOdel = require('../schemas/noticeSchema')
+var NoticeMOdel = require('../service/notice-service')
 
 router.get('/notice', function (req, res, next) {
-  Notice.query(function (err, notice) {
+  NoticeMOdel.query(function (err, notice) {
     if (err) {
       console.log(err)
     }

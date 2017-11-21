@@ -12,6 +12,10 @@ NoticeSchema.statics = {
   query: function (cb) {
     return this.find().exec(cb)
   },
+  insert: function(doc, cb) {
+    var add = new NoticeMOdel(doc)
+    return add.save().exec(cb)
+  },
   update: function (id, doc, cb) {
     return this.update({_id: id}, doc).exec(cb)
   },
