@@ -14,5 +14,8 @@ TagSchema.statics = {
   update: function(id, doc, cb){
     return this.update({_id: id}, doc).exec(cb)
   },
+  delete: function(id, cb){
+    return this.remove({_id: id}).exec(cb)
+  },
 }
 module.exports = TagSchema
