@@ -16,6 +16,7 @@ var ip = require('./routes/ip')
 var log = require('./routes/log')
 var tag = require('./routes/tag')
 var archives = require('./routes/archives')
+var notice = require('./routes/notice')
 
 var app = express()
 
@@ -67,6 +68,7 @@ app.use('/ip', ip)
 app.use('/', log)
 app.use('/', tag)
 app.use('/', archives)
+app.use('/', notice)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
