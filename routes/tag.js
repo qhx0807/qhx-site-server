@@ -1,11 +1,10 @@
 var express = require('express')
 var router = express.Router()
-
-var Tag = require('../models/tagModel')
+var TagModel = require('../service/tag-service')
 
 
 router.get('/tags', function(req, res, next) {
-    Tag.query(function(err, tags) {
+  TagModel.query(function(err, tags) {
     if (err) {
       console.log(err)
     }
