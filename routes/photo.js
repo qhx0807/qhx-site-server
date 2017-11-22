@@ -1,0 +1,45 @@
+var express = require('express')
+var router = express.Router()
+var PhotoModel = require('../service/photo-service')
+
+router.get('/photo', function(req, res, next) {
+  PhotoModel.query(function(err, photos) {
+    if (err) {
+      console.log(err)
+    }
+    res.json({ Data: photos })
+  })
+})
+
+router.post('/photo', function(req, res, next) {
+  var TagInsert = new PhotoModel(req.body)
+  TagInsert.save(function(err) {
+    if (err) {
+      res.json({ Data: err })
+    } else {
+      res.json({ OK: 'ok' })
+    }
+  })
+})
+
+router.put('/photo', function(req, res, next) {
+  PhotoModel.edit(req.body.id, req.body, function(err) {
+    if (err) {
+      res.json({ Data: err })
+    }else{
+      res.json({ OK: 'ok' })
+    }
+  })
+})
+
+router.delete('/photo', function(req, res, next) {
+  PhotoModel.delete(req.body.id, function(err) {
+    if (err) {
+      res.json({ Data: err })
+    } else {
+      res.json({ OK: 'ok' })
+    }
+  })
+})
+
+module.exports = router
