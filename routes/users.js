@@ -36,9 +36,10 @@ router.post('/user', function(req, res, next) {
 router.put('/user', function(req, res, next) {
   UsersModel.edit(req.body.id, req.body, function(err, docs) {
     if (err) {
-      console.log(err)
+      res.json({ Data: err })
+    }else{
+      res.json({ OK: 'ok' })
     }
-    res.json({Data: docs})
   })
 })
 

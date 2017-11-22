@@ -12,5 +12,15 @@ router.get('/log', function(req, res, next) {
   })
 })
 
+router.delete('/log', function(req, res, next) {
+  LogModel.delete(req.body.id, function(err) {
+    if (err) {
+      res.json({ Data: err })
+    } else {
+      res.json({ OK: 'ok' })
+    }
+  })
+})
+
 
 module.exports = router

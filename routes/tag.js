@@ -23,7 +23,7 @@ router.post('/tags', function(req, res, next) {
 })
 
 router.put('/tags', function(req, res, next) {
-  TagModel.edit(req.body.id, req.body, function(err, docs) {
+  TagModel.edit(req.body.id, req.body, function(err) {
     if (err) {
       res.json({ Data: err })
     }else{
@@ -33,7 +33,7 @@ router.put('/tags', function(req, res, next) {
 })
 
 router.delete('/tags', function(req, res, next) {
-  TagModel.delete(req.body.id, function(err, docs) {
+  TagModel.delete(req.body.id, function(err) {
     if (err) {
       res.json({ Data: err })
     } else {
