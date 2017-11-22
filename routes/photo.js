@@ -12,8 +12,8 @@ router.get('/photo', function(req, res, next) {
 })
 
 router.post('/photo', function(req, res, next) {
-  var TagInsert = new PhotoModel(req.body)
-  TagInsert.save(function(err) {
+  var et = new PhotoModel(req.body)
+  et.save(function(err) {
     if (err) {
       res.json({ Data: err })
     } else {
