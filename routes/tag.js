@@ -26,8 +26,9 @@ router.put('/tags', function(req, res, next) {
   TagModel.edit(req.body.id, req.body, function(err, docs) {
     if (err) {
       res.json({ Data: err })
+    }else{
+      res.json({ OK: 'ok' })
     }
-    res.json({ Data: docs })
   })
 })
 

@@ -18,7 +18,7 @@ UsersSchema.statics = {
   login: function(name, pwd, cb) {
     return this.findOne({ name: name, pwd: pwd }).exec(cb)
   },
-  update: function(id, doc, cb){
+  edit: function(id, doc, cb){
     return this.update({_id: id}, doc).exec(cb)
   },
   delete: function(id, cb){
