@@ -4,11 +4,15 @@ var LogModel = require('../service/log-service')
 
 
 router.get('/log', function(req, res, next) {
-  LogModel.query(function(err, log) {
-    if (err) {
-      console.log(err)
-    }
-    res.json({Data: log})
+  LogModel.query(req.query.page, function(err, log) {
+    LogModel.fetch(function(er, all){
+      if (er) {
+        res.json({ Data: er })
+      } else {
+        res.json({ Data: log, Total: all.length })
+      }
+    })
+    
   })
 })
 

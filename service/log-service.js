@@ -5,17 +5,23 @@ var LogSchema = new mongoose.Schema({
   api: String,
   method: String,
   body: Object,
-  params: Object,
+  params: Object
 })
 
-
 LogSchema.statics = {
-  query: function(cb){
+  query: function (page, cb) {
+    return this.find({})
+      .sort({_id: -1})
+      .skip((page-1) * 10)
+      .limit(10)
+      .exec(cb)
+  },
+  fetch:function(cb){
     return this.find().exec(cb)
   },
-  delete: function(id, cb){
+  delete: function (id, cb) {
     return this.remove({_id: id}).exec(cb)
-  },
+  }
 }
 
 var LogModel = mongoose.model('log', LogSchema)
