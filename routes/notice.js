@@ -23,7 +23,7 @@ router.post('/notice', function(req, res, next) {
 })
 
 router.put('/notice', function(req, res, next) {
-  NoticeMOdel.edit(req.body.id, req.body, function(err) {
+  NoticeMOdel.edit(req.body._id, req.body, function(err) {
     if (err) {
       res.json({ Data: err })
     } else {

@@ -23,7 +23,7 @@ router.post('/archive', function(req, res, next) {
 })
 
 router.put('/archive', function(req, res, next) {
-  ArchiveModel.edit(req.body.id, req.body, function(err) {
+  ArchiveModel.edit(req.body._id, req.body, function(err) {
     if (err) {
       res.json({ Data: err })
     } else {

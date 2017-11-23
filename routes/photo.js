@@ -23,7 +23,7 @@ router.post('/photo', function(req, res, next) {
 })
 
 router.put('/photo', function(req, res, next) {
-  PhotoModel.edit(req.body.id, req.body, function(err) {
+  PhotoModel.edit(req.body._id, req.body, function(err) {
     if (err) {
       res.json({ Data: err })
     }else{

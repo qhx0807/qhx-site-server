@@ -23,7 +23,7 @@ router.post('/message', function(req, res, next) {
 })
 
 router.put('/message', function(req, res, next) {
-  MessageModel.edit(req.body.id, req.body, function(err) {
+  MessageModel.edit(req.body._id, req.body, function(err) {
     if (err) {
       res.json({ Data: err })
     }else{
