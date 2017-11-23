@@ -33,7 +33,7 @@ router.put('/notice', function(req, res, next) {
 })
 
 router.delete('/notice', function(req, res, next) {
-  NoticeMOdel.delete(req.body.id, function(err) {
+  NoticeMOdel.delete(req.query.id, function(err) {
     if (err) {
       res.json({ Data: err })
     } else {

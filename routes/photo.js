@@ -33,7 +33,7 @@ router.put('/photo', function(req, res, next) {
 })
 
 router.delete('/photo', function(req, res, next) {
-  PhotoModel.delete(req.body.id, function(err) {
+  PhotoModel.delete(req.query.id, function(err) {
     if (err) {
       res.json({ Data: err })
     } else {

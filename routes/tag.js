@@ -33,7 +33,7 @@ router.put('/tags', function(req, res, next) {
 })
 
 router.delete('/tags', function(req, res, next) {
-  TagModel.delete(req.body.id, function(err) {
+  TagModel.delete(req.query.id, function(err) {
     if (err) {
       res.json({ Data: err })
     } else {

@@ -33,7 +33,7 @@ router.put('/archive', function(req, res, next) {
 })
 
 router.delete('/archive', function(req, res, next) {
-  ArchiveModel.delete(req.body.id, function(err) {
+  ArchiveModel.delete(req.query.id, function(err) {
     if (err) {
       res.json({ Data: err })
     } else {

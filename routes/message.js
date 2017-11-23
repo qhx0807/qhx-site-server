@@ -33,7 +33,7 @@ router.put('/message', function(req, res, next) {
 })
 
 router.delete('/message', function(req, res, next) {
-  MessageModel.delete(req.body.id, function(err) {
+  MessageModel.delete(req.query.id, function(err) {
     if (err) {
       res.json({ Data: err })
     } else {

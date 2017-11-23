@@ -44,7 +44,7 @@ router.put('/user', function(req, res, next) {
 })
 
 router.delete('/user', function(req, res, next) {
-  UsersModel.delete(req.body.id, function(err, docs) {
+  UsersModel.delete(req.query.id, function(err, docs) {
     if (err) {
       res.json({Data: err})
     }else{

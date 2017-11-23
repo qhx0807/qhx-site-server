@@ -33,7 +33,7 @@ router.put('/notes', function(req, res, next) {
 })
 
 router.delete('/notes', function(req, res, next) {
-  NoteModel.delete(req.body.id, function(err) {
+  NoteModel.delete(req.query.id, function(err) {
     if (err) {
       res.json({ Data: err })
     } else {
