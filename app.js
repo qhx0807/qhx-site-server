@@ -5,6 +5,7 @@ var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
+var dbConfig = require('./config')
 
 //var Log = require('./models/logModel')
 var LogSchema = require('./schemas/logSchema')
@@ -22,7 +23,7 @@ var message = require('./routes/message')
 
 var app = express()
 
-var db = mongoose.connect('mongodb://106.14.198.193:27017/qhx')
+var db = mongoose.connect(dbConfig.uri, dbConfig.auth)
 //var logModel = db.model('log', LogSchema)
 var logModel = require('./service/log-service')
 // view engine setup
