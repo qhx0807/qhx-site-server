@@ -1,17 +1,17 @@
 var mongoose = require('mongoose')
 
-var LogSchema = new mongoose.Schema({
+var PvSchema = new mongoose.Schema({
   time: String,
   ip: String,
   location: String
 })
 
-LogSchema.statics = {
+PvSchema.statics = {
   query: function (date, cb) {
-    if(date){
-      return this.find({'time': new RegExp(date, 'i')}).exec(cb)
+    if(!date){
+      return this.find().sort({_id: -1}).exec(cb)
     }else{
-      return this.find().exec(cb)
+      return this.find({'time': new RegExp(date, 'i')}).sort({_id: -1}).exec(cb)
     }
     
   },
@@ -23,6 +23,6 @@ LogSchema.statics = {
   }
 }
 
-var LogModel = mongoose.model('pv', LogSchema)
+var PvModel = mongoose.model('pv', PvSchema)
 
-module.exports = LogModel
+module.exports = PvModel
