@@ -68,7 +68,7 @@ app.use(function (req, res, next) {
 app.use('/', index)
 app.use('/', users)
 app.use('/', notes)
-app.use('/ip', ip)
+app.use('/', ip)
 app.use('/', log)
 app.use('/', tag)
 app.use('/', archives)
