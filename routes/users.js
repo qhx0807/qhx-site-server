@@ -34,7 +34,7 @@ router.post('/user', function(req, res, next) {
 })
 
 router.put('/user', function(req, res, next) {
-  UsersModel.edit(req.body._id, req.body, function(err, docs) {
+  UsersModel.edit(req.body.id, req.body, function(err) {
     if (err) {
       res.json({ Data: err })
     }else{
@@ -44,7 +44,7 @@ router.put('/user', function(req, res, next) {
 })
 
 router.delete('/user', function(req, res, next) {
-  UsersModel.delete(req.query.id, function(err, docs) {
+  UsersModel.delete(req.query.id, function(err) {
     if (err) {
       res.json({Data: err})
     }else{
