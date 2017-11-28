@@ -1,7 +1,17 @@
 var mongoose = require('mongoose')
 
 var NotesSchema = new mongoose.Schema({
-  title: String
+  title: String,
+  titleImg: String,
+  archive: String,
+  auth: String,
+  date: String,
+  htmlvalue: String,
+  mdValue: String,
+  like: {type: Number, defalut: 0},
+  watch: {type: Number, defalut: 0},
+  commits: Array,
+  tags: [String],
 })
 
 NotesSchema.statics = {
