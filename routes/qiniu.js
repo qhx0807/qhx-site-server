@@ -94,29 +94,43 @@ router.delete('/deleteImage', function (req, res, next) {
   var accessKey = req.body.accessKey || ''
   var secretKey = req.body.secretKey || ''
   var bucket = req.body.bucket || ''
-  var fileName = req.body.fileName || ''
+  var key = req.body.fileName || ''
   var mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
-
-  var encodeEntry = qiniuUtil.encodedEntry(bucket, fileName)
-  var accessToken = qiniuUtil.generateAccessToken(mac, 'http://rs.qiniu.com/delete/' + encodeEntry)
-  request
-    .post('http://rs.qiniu.com/delete/' + encodeEntry)
-    .set('Host', 'rs.qiniu.com')
-    .set('Content-Type', 'application/x-www-form-urlencoded')
-    .set('Authorization', accessToken)
-    .end((err, resp) => {
-      if (resp.status == 200) {
-        res.json({
-          code: 200,
-          msg: '删除成功'
-        })
-      } else {
-        res.json({
-          code: resp.status,
-          msg: JSON.parse(resp.text).error
-        })
-      }
-    })
+  var config = new qiniu.conf.Config()
+  var bucketManager = new qiniu.rs.BucketManager(mac, config)
+  // var encodeEntry = qiniuUtil.encodedEntry(bucket, fileName)
+  // var accessToken = qiniuUtil.generateAccessToken(mac, 'http://rs.qiniu.com/delete/' + encodeEntry)
+  // request
+  //   .post('http://rs.qiniu.com/delete/' + encodeEntry)
+  //   .set('Host', 'rs.qiniu.com')
+  //   .set('Content-Type', 'application/x-www-form-urlencoded')
+  //   .set('Authorization', accessToken)
+  //   .end((err, resp) => {
+  //     if (resp.status == 200) {
+  //       res.json({
+  //         code: 200,
+  //         msg: '删除成功'
+  //       })
+  //     } else {
+  //       res.json({
+  //         code: resp.status,
+  //         msg: JSON.parse(resp.text).error 
+  //       })
+  //     }
+  //   })
+  bucketManager.delete(bucket, key, function (err, respBody, respInfo) {
+    if (err) {
+      console.log(err)
+      res.json({Data: err})
+    } else {
+      console.log(respInfo.statusCode)
+      console.log(respBody)
+      res.json({
+        code: 200,
+        msg: '删除成功'
+      })
+    }
+  })
 })
 
 module.exports = router
