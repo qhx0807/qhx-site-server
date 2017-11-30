@@ -19,7 +19,7 @@ router.get('/qiniuToken', function (req, res, next) {
   res.json({ Data: uploadToken })
 })
 
-router.post('/imgInfo', function (req, res, next) {
+router.post('/imageInfo', function (req, res, next) {
   var accessKey = req.body.accessKey || ''
   var secretKey = req.body.secretKey || ''
   var bucket = req.body.bucket || ''
@@ -80,6 +80,35 @@ router.post('/imageList', function (req, res, next) {
         res.json({
           code: 200,
           data: data.items
+        })
+      } else {
+        res.json({
+          code: resp.status,
+          msg: JSON.parse(resp.text).error
+        })
+      }
+    })
+})
+
+router.delete('/deleteImage', function (req, res, next) {
+  var accessKey = req.body.accessKey || ''
+  var secretKey = req.body.secretKey || ''
+  var bucket = req.body.bucket || ''
+  var fileName = req.body.fileName || ''
+  var mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
+
+  var encodeEntry = qiniuUtil.encodedEntry(bucket, fileName)
+  var accessToken = qiniuUtil.generateAccessToken(mac, 'http://rs.qiniu.com/delete/' + encodeEntry)
+  request
+    .post('http://rs.qiniu.com/delete/' + encodeEntry)
+    .set('Host', 'rs.qiniu.com')
+    .set('Content-Type', 'application/x-www-form-urlencoded')
+    .set('Authorization', accessToken)
+    .end((err, resp) => {
+      if (resp.status == 200) {
+        res.json({
+          code: 200,
+          msg: '删除成功'
         })
       } else {
         res.json({
