@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var qiniu = require('qiniu')
+var request = require('request')
 
 var accessKey = '_iCkoUSbXhnN8AF8T8Mi1qBr-6z47dk-0iQs0C_r'
 var secretKey = 'c7raaxbjXxadIaSU4PfSuMJMw1ICaoJuEjqXoW4-'
@@ -18,7 +19,7 @@ router.get('/qiniuToken', function (req, res, next) {
   res.json({ Data: uploadToken })
 })
 
-router.get('/imgInfo', function (req, res, next) {
+router.post('/imgInfo', function (req, res, next) {
   var accessKey = req.body.accessKey || ''
   var secretKey = req.body.secretKey || ''
   var bucket = req.body.bucket || ''
@@ -33,6 +34,7 @@ router.get('/imgInfo', function (req, res, next) {
       console.log(err)
     } else {
       if (respInfo.statusCode == 200) {
+        res.json(respBody)
         console.log(respBody.hash)
         console.log(respBody.fsize)
         console.log(respBody.mimeType)
@@ -41,9 +43,51 @@ router.get('/imgInfo', function (req, res, next) {
       } else {
         console.log(respInfo.statusCode)
         console.log(respBody.error)
+        res.json({
+          code: respInfo.statusCode,
+          error: respBody.error
+        })
       }
     }
   })
+})
+
+router.post('/imageList', function (req, res, next) {
+  var accessKey = req.body.accessKey || ''
+  var secretKey = req.body.secretKey || ''
+  var bucket = req.body.bucket || ''
+  var mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
+
+  const accessToken = qiniuUtil.generateAccessToken(mac, 'http://rsf.qbox.me/list?bucket=' + bucket)
+  request
+    .post('http://rsf.qbox.me/list?bucket=' + bucket)
+    .timeout(10000)
+    .set('Host', 'rsf.qbox.me')
+    .set('Content-Type', 'application/x-www-form-urlencoded')
+    .set('Authorization', accessToken)
+    .end((err, resp) => {
+      if (err) {
+        console.log(err)
+        res.json({
+          code: 204,
+          msg: '请求七牛资源失败，请重试'
+        })
+        return
+      }
+      if (resp.status == 200) {
+        let data = resp.text.replace(/\\/, '')
+        data = JSON.parse(data)
+        res.json({
+          code: 200,
+          data: data.items
+        })
+      } else {
+        res.json({
+          code: resp.status,
+          msg: JSON.parse(resp.text).error
+        })
+      }
+    })
 })
 
 module.exports = router
