@@ -18,8 +18,32 @@ router.get('/qiniuToken', function (req, res, next) {
   res.json({ Data: uploadToken })
 })
 
-router.get('/imgList', function (req, res, next) {
-  
+router.get('/imgInfo', function (req, res, next) {
+  var accessKey = req.body.accessKey || ''
+  var secretKey = req.body.secretKey || ''
+  var bucket = req.body.bucket || ''
+  var key = req.body.fileName || ''
+
+  var mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
+  var config = new qiniu.conf.Config()
+  var bucketManager = new qiniu.rs.BucketManager(mac, config)
+
+  bucketManager.stat(bucket, key, function (err, respBody, respInfo) {
+    if (err) {
+      console.log(err)
+    } else {
+      if (respInfo.statusCode == 200) {
+        console.log(respBody.hash)
+        console.log(respBody.fsize)
+        console.log(respBody.mimeType)
+        console.log(respBody.putTime)
+        console.log(respBody.type)
+      } else {
+        console.log(respInfo.statusCode)
+        console.log(respBody.error)
+      }
+    }
+  })
 })
 
 module.exports = router
