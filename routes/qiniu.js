@@ -8,14 +8,18 @@ var mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
 
 var options = {
   scope: 'qhx-store-2',
-  expires: 7200,
+  expires: 7200
 }
 
 var putPolicy = new qiniu.rs.PutPolicy(options)
 var uploadToken = putPolicy.uploadToken(mac)
 
-router.get('/qiniuToken', function(req, res, next) {
+router.get('/qiniuToken', function (req, res, next) {
   res.json({ Data: uploadToken })
+})
+
+router.get('/imgList', function (req, res, next) {
+  
 })
 
 module.exports = router
