@@ -57,38 +57,28 @@ router.post('/imageList', function (req, res, next) {
   var secretKey = req.body.secretKey || ''
   var bucket = req.body.bucket || ''
   var mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
-
-  const accessToken = qiniuUtil.generateAccessToken(mac, 'http://rsf.qbox.me/list?bucket=' + bucket)
-  request
-    .post('http://rsf.qbox.me/list?bucket=' + bucket)
-    .timeout(10000)
-    .set('Host', 'rsf.qbox.me')
-    .set('Content-Type', 'application/x-www-form-urlencoded')
-    .set('Authorization', accessToken)
-    .end((err, resp) => {
-      if (err) {
-        console.log(err)
-        res.json({
-          code: 204,
-          msg: '请求七牛资源失败，请重试'
-        })
-        return
-      }
-      if (resp.status == 200) {
-        let data = resp.text.replace(/\\/, '')
-        data = JSON.parse(data)
-        res.json({
-          code: 200,
-          data: data.items
-        })
-      } else {
-        res.json({
-          code: resp.status,
-          msg: JSON.parse(resp.text).error
-        })
-      }
-    })
+  var options = {
+    scope: bucket,
+    expires: 7200
+  }
+  var putPolicy = new qiniu.rs.PutPolicy(options)
+  var accessToken = putPolicy.uploadToken(mac)
+  // const accessToken = qiniuUtil.generateAccessToken(mac, 'http://rsf.qbox.me/list?bucket=' + bucket)
+  request({
+    url: 'http://rsf.qbox.me/list?bucket=' + bucket,
+    Host: 'rsf.qbox.me',
+    method: 'POST',
+    json: true,
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    Authorization: accessToken,
+  }, function(error, response, body){
+    console.log(response)
+  })
 })
+
+
 
 router.delete('/deleteImage', function (req, res, next) {
   var accessKey = req.body.accessKey || ''
