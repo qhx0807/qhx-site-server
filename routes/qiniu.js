@@ -57,28 +57,25 @@ router.post('/imageList', function (req, res, next) {
   var secretKey = req.body.secretKey || ''
   var bucket = req.body.bucket || ''
   var mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
+  var config = new qiniu.conf.Config()
+  var bucketManager = new qiniu.rs.BucketManager(mac, config)
   var options = {
-    scope: bucket,
-    expires: 7200
+    limit: 1000,
+    prefix: ''
   }
-  var putPolicy = new qiniu.rs.PutPolicy(options)
-  var accessToken = putPolicy.uploadToken(mac)
-  // const accessToken = qiniuUtil.generateAccessToken(mac, 'http://rsf.qbox.me/list?bucket=' + bucket)
-  request({
-    url: 'http://rsf.qbox.me/list?bucket=' + bucket,
-    Host: 'rsf.qbox.me',
-    method: 'POST',
-    json: true,
-    headers: {
-      'content-type': 'application/x-www-form-urlencoded'
-    },
-    Authorization: accessToken,
-  }, function(error, response, body){
-    console.log(response)
+  bucketManager.listPrefix(bucket, options, function (err, respBody, respInfo) {
+    if (err) {
+      console.log(err)
+      throw err
+    }
+    if (respInfo.statusCode == 200) {
+      res.json({Data: respBody})
+    } else {
+      console.log(respInfo.statusCode)
+      console.log(respBody)
+    }
   })
 })
-
-
 
 router.delete('/deleteImage', function (req, res, next) {
   var accessKey = req.body.accessKey || ''
