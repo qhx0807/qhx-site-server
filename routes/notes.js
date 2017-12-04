@@ -26,7 +26,7 @@ router.put('/notes', function(req, res, next) {
   NoteModel.edit(req.body._id, req.body, function(err) {
     if (err) {
       res.json({ Data: err })
-    }else{
+    } else {
       res.json({ OK: 'ok' })
     }
   })
