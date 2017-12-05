@@ -24,11 +24,11 @@ router.get('/sta', function (req, res, next) {
   }).then(function (photo) {
     obj.photo = photo.length
     var y = new Date().getFullYear()
-    var m = new Date().getMonth()+1
+    var m = new Date().getMonth() + 1
     var d = new Date().getDate()
-    var date = y+'-'+m+'-'+d
+    var date = y + '-' + m + '-' + d
     return PvModel.query(date)
-  }).then(function(tpv){
+  }).then(function (tpv) {
     obj.tpv = tpv.length
     res.json(obj)
   })
