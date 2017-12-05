@@ -22,6 +22,7 @@ var photo = require('./routes/photo')
 var message = require('./routes/message')
 var qiniu = require('./routes/qiniu')
 var daily = require('./routes/daily')
+var statistics = require('./routes/statistics')
 
 var app = express()
 
@@ -80,6 +81,7 @@ app.use('/', photo)
 app.use('/', message)
 app.use('/', qiniu)
 app.use('/', daily)
+app.use('/', statistics)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
