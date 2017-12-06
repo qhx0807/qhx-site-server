@@ -25,14 +25,13 @@ router.post('/pv', function (req, res, next) {
   })
 })
 
-router.get('/pv', function(req, res, next) {
-  PvModel.query(req.query.date,function(err, message) {
+router.get('/pv', function (req, res, next) {
+  PvModel.query(req.query.date, function (err, message) {
     if (err) {
       console.log(err)
     }
     res.json({ Data: message })
   })
 })
-
 
 module.exports = router
