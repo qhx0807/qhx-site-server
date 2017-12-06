@@ -19,6 +19,13 @@ LogSchema.statics = {
   fetch:function(cb){
     return this.find().exec(cb)
   },
+  getList: function (date, cb) {
+    if(!date){
+      return this.find().sort({_id: -1}).exec(cb)
+    }else{
+      return this.find({'time': new RegExp(date, 'i')}).sort({_id: -1}).exec(cb)
+    }
+  },
   delete: function (id, cb) {
     return this.remove({_id: id}).exec(cb)
   }
